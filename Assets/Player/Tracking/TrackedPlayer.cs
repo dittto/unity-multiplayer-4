@@ -1,6 +1,6 @@
-﻿using GameState;
+﻿// Player/Tracking/TrackedPlayer.cs
+
 using Player.SyncedData;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Player.Tracking

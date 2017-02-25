@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// Player/Tracking/PlayerTracker.cs
+
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player.Tracking
