@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Player.SyncedData {
     public class LocalPlayerDataStore {
+
         private static LocalPlayerDataStore instance;
 
         public Color playerColour;

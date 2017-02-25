@@ -38,8 +38,6 @@ namespace Player.Tracking
             if (this.OnPlayerAdded != null) {
                 this.OnPlayerAdded(obj);
             }
-
-            Debug.Log("Added player - count: " + players.Count);
         }
 
         public void RemovePlayer(GameObject obj)
@@ -55,8 +53,6 @@ namespace Player.Tracking
             if (serverPlayer == obj) {
                 SetServerPlayer(obj);
             }
-
-            Debug.Log("Removed player - count: " + players.Count);
         }
 
         public List<GameObject> GetPlayers()

@@ -21,16 +21,16 @@ namespace Player.SyncedData {
             clientData.SetColour(store.playerColour);
             clientData.OnColourUpdated += OnPlayerColourUpdated;
 
-            clientData.SetIsServer(store.isServer);
+            clientData.SetIsServerFlag(store.isServer);
             clientData.OnIsServerFlagUpdated += OnIsServerFlagUpdated;
         }
 
-        public void OnPlayerColourUpdated(Color newColour)
+        public void OnPlayerColourUpdated(GameObject player, Color newColour)
         {
             LocalPlayerDataStore.GetInstance().playerColour = newColour;
         }
 
-        public void OnIsServerFlagUpdated (bool isServer)
+        public void OnIsServerFlagUpdated (GameObject player, bool isServer)
         {
             LocalPlayerDataStore.GetInstance().isServer = isServer;
         }

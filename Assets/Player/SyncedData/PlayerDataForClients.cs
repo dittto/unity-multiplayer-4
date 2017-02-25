@@ -6,9 +6,9 @@ using UnityEngine.Networking;
 namespace Player.SyncedData {
     public class PlayerDataForClients : NetworkBehaviour {
 
-        public delegate void ColourUpdated (Color newColour);
+        public delegate void ColourUpdated (GameObject player, Color newColour);
         public event ColourUpdated OnColourUpdated;
-        public delegate void IsServerFlagUpdated (bool isServer);
+        public delegate void IsServerFlagUpdated (GameObject player, bool isServer);
         public event IsServerFlagUpdated OnIsServerFlagUpdated;
 
         [SyncVar(hook = "UpdateColour")]
@@ -16,15 +16,19 @@ namespace Player.SyncedData {
         [SyncVar(hook = "UpdateIsServerFlag")]
         private bool isServerFlag;
 
-        // use this for re-triggering the hooks on scene load
         public override void OnStartClient()
         {
             // don't update for local player as handled by LocalPlayerOptionsManager
-            // don't update for server as only the clients need this
+            // don't update for server as the server will know on Command call from local player
             if (!isLocalPlayer && !isServer) {
                 UpdateColour(colour);
                 UpdateIsServerFlag(isServerFlag);
             }
+        }
+
+        public Color GetColour ()
+        {
+            return colour;
         }
         
         [Client]
@@ -43,21 +47,24 @@ namespace Player.SyncedData {
         public void UpdateColour (Color newColour)
         {
             colour = newColour;
-            GetComponentInChildren<MeshRenderer>().material.color = newColour;
-
             if (this.OnColourUpdated != null) {
-                this.OnColourUpdated(newColour);
+                this.OnColourUpdated(gameObject, newColour);
             }
         }
 
-        [Client]
-        public void SetIsServer (bool newIsServer)
+        public bool GetIsServerFlag ()
         {
-            CmdSetIsServer(newIsServer);
+            return isServer;
+        }
+
+        [Client]
+        public void SetIsServerFlag (bool newIsServer)
+        {
+            CmdSetIsServerFlag(newIsServer);
         }
 
         [Command]
-        public void CmdSetIsServer (bool newIsServer)
+        public void CmdSetIsServerFlag (bool newIsServer)
         {
             isServerFlag = newIsServer;
         }
@@ -68,7 +75,7 @@ namespace Player.SyncedData {
             isServerFlag = newIsServer;
 
             if (this.OnIsServerFlagUpdated != null) {
-                this.OnIsServerFlagUpdated(newIsServer);
+                this.OnIsServerFlagUpdated(gameObject, newIsServer);
             }
         }
     }

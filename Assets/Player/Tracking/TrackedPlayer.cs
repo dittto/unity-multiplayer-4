@@ -1,6 +1,7 @@
 ﻿// Player/Tracking/TrackedPlayer.cs
 
 using Player.SyncedData;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Player.Tracking
@@ -14,7 +15,7 @@ namespace Player.Tracking
             gameObject.GetComponent<PlayerDataForClients>().OnIsServerFlagUpdated += UpdatePlayerIsServer;
         }
         
-        private void UpdatePlayerIsServer (bool isServer)
+        private void UpdatePlayerIsServer (GameObject player, bool isServer)
         {
             PlayerTracker.GetInstance().SetServerPlayer(gameObject);
         }
